@@ -1,24 +1,27 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-     
-car_data = pd.read_csv('vehicles_us.csv') # leer los datos
-st.header('Análisis Exploratorio de Datos (EDA) de Vehículos') # título de la aplicación
-hist_button = st.button('Construir histograma') # crear un botón
 
-if hist_button: # al hacer clic en el botón
-         # escribir un mensaje
-     st.write('Creación de un histograma para el conjunto de datos de anuncios de venta de coches')
-         
-         # crear un histograma
-     fig = px.histogram(car_data, x="odometer")
-     
-         # mostrar un gráfico Plotly interactivo
-     st.plotly_chart(fig, use_container_width=True)
-import streamlit as st
+# Título de la aplicación
+st.header('Análisis Exploratorio de Datos (EDA) de Vehículos')
 
-# crear una casilla de verificación
-build_histogram = st.checkbox('Construir un histograma')
+# Cargar los datos
+car_data = pd.read_csv('vehicles_us.csv')
 
-if build_histogram: # si la casilla de verificación está seleccionada
-    st.write('Construir un histograma para la columna odómetro')
+# Checkbox para activar la opción de histograma
+build_histogram = st.checkbox('Mostrar opciones de visualización')
+
+if build_histogram:
+    st.write('Opciones para visualizar los datos del odómetro')
+
+    # Botón para histograma
+    if st.button('Construir histograma'):
+        st.write('Creación de un histograma para la columna "odometer"')
+        fig_hist = px.histogram(car_data, x="odometer")
+        st.plotly_chart(fig_hist, use_container_width=True)
+
+    # Botón para gráfico de dispersión
+    if st.button('Construir gráfico de dispersión (odómetro vs precio)'):
+        st.write('Creación de un gráfico de dispersión: odómetro vs precio')
+        fig_scatter = px.scatter(car_data, x="odometer", y="price")
+        st.plotly_chart(fig_scatter, use_container_width=True)
